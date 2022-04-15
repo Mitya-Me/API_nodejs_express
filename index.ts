@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Request, Response, NextFunction } from 'express';
 import { userRouter } from './users/users.js';
 
 const port = 3000;
@@ -16,12 +16,11 @@ app.get('/hello', (req, res) => {
 
 app.use('/users', userRouter);
 
-app.use(err => { 
+app.use((err: Error, req: Request, res: Response, next: NextFunction) => { 
 	console.log(err.message) 
-	res.status(500).send(`Oops... ${error.message}`)
+	res.status(500).send(`Oops... ${err.message}`)
 })
 
-app.listen(port, (err) => { 
-	if (err) console.log('Ooops.. Damned!', err)
+app.listen(port, () => { 
 	console.log(`[${timeIsNow}] http://localhost:${port}`)
 })
